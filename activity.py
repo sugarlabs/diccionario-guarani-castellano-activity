@@ -14,19 +14,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import gtk
+from gi.repository import Gtk, Gdk, GdkPixbuf
 import logging
 
 from gettext import gettext as _
 
-from sugar.activity import activity
-from sugar.graphics.toolbarbox import ToolbarBox
-from sugar.activity.widgets import ActivityButton
-from sugar.activity.widgets import ActivityToolbox
-from sugar.activity.widgets import TitleEntry
-from sugar.activity.widgets import StopButton
-from sugar.activity.widgets import ShareButton
-from ConfigParser import SafeConfigParser
+from sugar3.activity import activity
+from sugar3.graphics.toolbarbox import ToolbarBox
+from sugar3.activity.widgets import ActivityButton
+from sugar3.activity.widgets import TitleEntry
+from sugar3.activity.widgets import StopButton
+from sugar3.activity.widgets import ShareButton
+from configparser import ConfigParser
+
 
 class Hablando_Guarani(activity.Activity):
 
@@ -51,8 +51,8 @@ class Hablando_Guarani(activity.Activity):
         share_button = ShareButton(self)
         toolbar_box.toolbar.insert(share_button, -1)
         share_button.show()
-        
-        separator = gtk.SeparatorToolItem()
+
+        separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
         toolbar_box.toolbar.insert(separator, -1)
@@ -66,109 +66,109 @@ class Hablando_Guarani(activity.Activity):
         toolbar_box.show()
 
         # label with the text, make the string translatable
-        win = gtk.VBox()
-	eb = gtk.EventBox() 	
-	eb.add(win)
-	eb.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('White'))
-	title = gtk.Image()
-	achehety = gtk.Image()
-	texto = gtk.Entry()
-	traducido=gtk.TextView()
-	traducido.set_editable(False)
-	traducido.set_wrap_mode(gtk.WRAP_WORD)
-	dic = gtk.TextView()
-	textbuffer = dic.get_buffer()
-	dic.set_wrap_mode(gtk.WRAP_WORD)
-	dic.set_editable(False)
-	
-	hbox3=gtk.HButtonBox()	
-	hbox3.set_layout(gtk.BUTTONBOX_CENTER)
-	
-	parser = SafeConfigParser()
-	parser.read('config.ini')	
-	bo1=gtk.Button(parser.get('dic','A'))
-	bo1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FCB947'))
-	bo2=gtk.Button(parser.get('dic','E'))
-	bo3=gtk.Button(parser.get('dic','I'))
-	bo3.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FCB947'))
-	bo4=gtk.Button(parser.get('dic','O'))
-	bo5=gtk.Button(parser.get('dic','U'))
-	bo5.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FCB947'))
-	bo6=gtk.Button(parser.get('dic','Y'))	
-	bo7=gtk.Button(parser.get('dic','G'))
-	bo7.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FCB947'))
-	#connect
-	pixbuf = gtk.gdk.pixbuf_new_from_file('images/logo.jpg')
-        scaled_pixbuf = pixbuf.scale_simple(400,100,gtk.gdk.INTERP_BILINEAR)
-        title.set_from_pixbuf(scaled_pixbuf)
-	pixbuf = gtk.gdk.pixbuf_new_from_file('images/achegety.jpg')
-        scaled_pixbuf = pixbuf.scale_simple(600,200,gtk.gdk.INTERP_BILINEAR)
-        achehety.set_from_pixbuf(scaled_pixbuf)
-	bo1.connect('clicked', self.__agregar__, texto, 'A')
-	bo2.connect('clicked', self.__agregar__, texto, 'E')
-	bo3.connect('clicked', self.__agregar__, texto, 'I')
-	bo4.connect('clicked', self.__agregar__, texto, 'O')
-	bo5.connect('clicked', self.__agregar__, texto, 'U')
-	bo6.connect('clicked', self.__agregar__, texto, 'Y')
-	bo7.connect('clicked', self.__agregar__, texto, 'G')
-	#Cargando archivo .txt
-	infile = open("lang/guarani/dic.txt", "r")
-        if infile:
-	    string = infile.read()		
-	    infile.close()
- 	    textbuffer.set_text(string)
-	
-	hbox2 = gtk.HBox()
+        win = Gtk.VBox()
+        eb = Gtk.EventBox()
+        eb.add(win)
+        eb.modify_bg(Gtk.StateType.NORMAL, Gdk.Color.parse('White')[1])
+        title = Gtk.Image()
+        achehety = Gtk.Image()
+        texto = Gtk.Entry()
+        traducido = Gtk.TextView()
+        traducido.set_editable(False)
+        traducido.set_wrap_mode(Gtk.WrapMode.WORD)
+        dic = Gtk.TextView()
+        textbuffer = dic.get_buffer()
+        dic.set_wrap_mode(Gtk.WrapMode.WORD)
+        dic.set_editable(False)
 
-	# Conexion de botones
-	texto.connect("activate", self.traducir_cb, traducido)
-	texto.connect("backspace", self.__backspace_cb, traducido)
+        hbox3 = Gtk.HButtonBox()
+        hbox3.set_layout(Gtk.ButtonBoxStyle.CENTER)
+
+        parser = ConfigParser()
+        parser.read('config.ini')
+        bo1 = Gtk.Button(parser.get('dic', 'A'))
+        bo1.modify_bg(Gtk.StateType.NORMAL, Gdk.Color.parse('#FCB947')[1])
+        bo2 = Gtk.Button(parser.get('dic', 'E'))
+        bo3 = Gtk.Button(parser.get('dic', 'I'))
+        bo3.modify_bg(Gtk.StateType.NORMAL, Gdk.Color.parse('#FCB947')[1])
+        bo4 = Gtk.Button(parser.get('dic', 'O'))
+        bo5 = Gtk.Button(parser.get('dic', 'U'))
+        bo5.modify_bg(Gtk.StateType.NORMAL, Gdk.Color.parse('#FCB947')[1])
+        bo6 = Gtk.Button(parser.get('dic', 'Y'))
+        bo7 = Gtk.Button(parser.get('dic', 'G'))
+        bo7.modify_bg(Gtk.StateType.NORMAL, Gdk.Color.parse('#FCB947')[1])
+        # connect
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file('images/logo.jpg')
+        scaled_pixbuf = pixbuf.scale_simple(400, 100, GdkPixbuf.InterpType.BILINEAR)
+        title.set_from_pixbuf(scaled_pixbuf)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file('images/achegety.jpg')
+        scaled_pixbuf = pixbuf.scale_simple(600, 200, GdkPixbuf.InterpType.BILINEAR)
+        achehety.set_from_pixbuf(scaled_pixbuf)
+        bo1.connect('clicked', self.__agregar__, texto, 'A')
+        bo2.connect('clicked', self.__agregar__, texto, 'E')
+        bo3.connect('clicked', self.__agregar__, texto, 'I')
+        bo4.connect('clicked', self.__agregar__, texto, 'O')
+        bo5.connect('clicked', self.__agregar__, texto, 'U')
+        bo6.connect('clicked', self.__agregar__, texto, 'Y')
+        bo7.connect('clicked', self.__agregar__, texto, 'G')
+        # Cargando archivo .txt
+        infile = open("lang/guarani/dic.txt", "r")
+        if infile:
+            string = infile.read()
+            infile.close()
+            textbuffer.set_text(string)
+
+        hbox2 = Gtk.HBox()
+
+        # Conexion de botones
+        texto.connect("activate", self.traducir_cb, traducido)
+        texto.connect("backspace", self.__backspace_cb, traducido)
 
         # creando scrolled
-        scrolled_window = gtk.ScrolledWindow()
+        scrolled_window = Gtk.ScrolledWindow()
         scrolled_window.set_border_width(10)
-        scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
-	
-	scrolled_window.add_with_viewport(dic)
-	#Disenho de ventana
-	self.set_canvas(eb)
-	win.add(title)
-	win.add(hbox3)
-	hbox3.add(bo1)
-	hbox3.add(bo2)
-	hbox3.add(bo3)
-	hbox3.add(bo4)
-	hbox3.add(bo5)
-	hbox3.add(bo6)
-	hbox3.add(bo7)
-	win.add(texto)
-	win.add(traducido)
-	win.add(hbox2)
-	win.add(achehety)
-	win.add(scrolled_window)
- 
+        scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.ALWAYS)
+
+        scrolled_window.add_with_viewport(dic)
+        # Disenho de ventana
+        self.set_canvas(eb)
+        win.add(title)
+        win.add(hbox3)
+        hbox3.add(bo1)
+        hbox3.add(bo2)
+        hbox3.add(bo3)
+        hbox3.add(bo4)
+        hbox3.add(bo5)
+        hbox3.add(bo6)
+        hbox3.add(bo7)
+        win.add(texto)
+        win.add(traducido)
+        win.add(hbox2)
+        win.add(achehety)
+        win.add(scrolled_window)
+
         eb.show_all()
 
     def __agregar__(self, bo1, texto=None, Data=None):
-	parser = SafeConfigParser()
-	parser.read('config.ini')		
-	texto.set_text(texto.get_text()+parser.get('dic',Data))
-    
+        parser = ConfigParser()
+        parser.read('config.ini')
+        texto.set_text(texto.get_text()+parser.get('dic', Data))
+
     def traducir_cb(self, texto, traducido=None):
-	entry = texto.get_text()+' = '
-	cargar = traducido.get_buffer()
-	infile = "lang/guarani/dic.txt"
+        entry = texto.get_text()+' = '
+        cargar = traducido.get_buffer()
+        infile = "lang/guarani/dic.txt"
         with open(infile, 'r') as f:
-	    for line in f:
-    		if line.lstrip().startswith(entry.capitalize()):
-		    line = line.lstrip(entry.capitalize())
-		    line = line.rstrip()
-        	    cargar.set_text(line) 
-		    break
-		
-	        if entry != line:
-	            cargar.set_text('No se ha encontrado coincidencia')
-		    
+            for line in f:
+                if line.lstrip().startswith(entry.capitalize()):
+                    line = line.lstrip(entry.capitalize())
+                    line = line.rstrip()
+                    cargar.set_text(line)
+                    break
+
+                if entry != line:
+                    cargar.set_text('No se ha encontrado coincidencia')
+
     def __backspace_cb(self, texto, traducido=None):
-        cargar = traducido.get_buffer()        
-	cargar.set_text('')
+        cargar = traducido.get_buffer()
+        cargar.set_text('')
