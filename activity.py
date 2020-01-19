@@ -14,10 +14,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, GdkPixbuf
-import logging
-
-from gettext import gettext as _
 
 from sugar3.activity import activity
 from sugar3.graphics.toolbarbox import ToolbarBox
